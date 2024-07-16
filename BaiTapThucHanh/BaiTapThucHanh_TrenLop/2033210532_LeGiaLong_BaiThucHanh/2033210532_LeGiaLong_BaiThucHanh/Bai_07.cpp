@@ -14,24 +14,46 @@
 #include <stdlib.h>
 #include <math.h>
 
-// Hàm nhập mảng 1 chiều số nguyên
-void nhapMang(int *& mang, int & kichThuoc)
+// Hàm nhập mảng 1 chiều số nguyên với kiểm tra lỗi nhập
+void nhapMang(int *&mang, int &kichThuoc)
 {
-	printf("Nhap so luong phan tu cua mang: ");
-	scanf("%d", &kichThuoc);
+	do
+	{
+		printf("Nhap so luong phan tu cua mang: ");
+		if (scanf("%d", &kichThuoc) != 1 || kichThuoc <= 0)
+		{
+			printf("Loi: So luong phan tu phai la so nguyen duong.\n");
+			while (getchar() != '\n'); // Xóa bộ đệm nhập để tránh vòng lặp vô hạn
+		}
+		else
+		{
+			break; // Thoát vòng lặp khi nhập đúng
+		}
+	} while (1);
 
 	mang = (int *)malloc(kichThuoc * sizeof(int)); // Cấp phát bộ nhớ cho mảng
 
 	printf("Nhap cac phan tu cua mang:\n");
 	for (int i = 0; i < kichThuoc; i++)
 	{
-		printf("Phan tu thu %d: ", i);
-		scanf("%d", mang + i); // Nhập giá trị cho từng phần tử của mảng
+		while (1)
+		{
+			printf("Phan tu thu %d: ", i);
+			if (scanf("%d", mang + i) != 1)
+			{
+				printf("Loi: Vui long nhap so nguyen.\n");
+				while (getchar() != '\n'); // Xóa bộ đệm nhập để tránh vòng lặp vô hạn
+			}
+			else
+			{
+				break; // Thoát vòng lặp khi nhập đúng
+			}
+		}
 	}
 }
 
 // Hàm xuất mảng 1 chiều số nguyên
-void xuatMang(int * mang, int kichThuoc)
+void xuatMang(int *mang, int kichThuoc)
 {
 	printf("Cac phan tu cua mang la:\n");
 	for (int i = 0; i < kichThuoc; i++)
@@ -42,7 +64,7 @@ void xuatMang(int * mang, int kichThuoc)
 }
 
 // a. Tìm phần tử lớn nhất của mảng và xuất ra giá trị và địa chỉ của nó
-void timPhanTuLonNhat(int * mang, int kichThuoc)
+void timPhanTuLonNhat(int *mang, int kichThuoc)
 {
 	if (kichThuoc <= 0)
 	{
@@ -51,7 +73,7 @@ void timPhanTuLonNhat(int * mang, int kichThuoc)
 	}
 
 	int lonNhat = *mang; // Giả sử phần tử đầu tiên là lớn nhất
-	int * diaChiLonNhat = mang;
+	int *diaChiLonNhat = mang;
 
 	for (int i = 1; i < kichThuoc; i++)
 	{
@@ -66,7 +88,7 @@ void timPhanTuLonNhat(int * mang, int kichThuoc)
 }
 
 // b. Xuất địa chỉ của phần tử chẵn lớn nhất và phần tử lẻ nhỏ nhất
-void timDiaChiPhanTuChanLonNhatVaLeNhoNhat(int * mang, int kichThuoc)
+void timDiaChiPhanTuChanLonNhatVaLeNhoNhat(int *mang, int kichThuoc)
 {
 	if (kichThuoc <= 0)
 	{
@@ -74,8 +96,8 @@ void timDiaChiPhanTuChanLonNhatVaLeNhoNhat(int * mang, int kichThuoc)
 		return;
 	}
 
-	int * diaChiChanLonNhat = NULL;
-	int * diaChiLeNhoNhat = NULL;
+	int *diaChiChanLonNhat = NULL;
+	int *diaChiLeNhoNhat = NULL;
 	int timChan = 0, timLe = 0;
 
 	for (int i = 0; i < kichThuoc; i++)
@@ -110,7 +132,7 @@ void timDiaChiPhanTuChanLonNhatVaLeNhoNhat(int * mang, int kichThuoc)
 }
 
 // c. Xóa phần tử có giá trị 0
-void xoaPhanTuCoGiaTriBangKhong(int *& mang, int & kichThuoc)
+void xoaPhanTuCoGiaTriBangKhong(int *&mang, int &kichThuoc)
 {
 	for (int i = 0; i < kichThuoc; i++)
 	{
@@ -132,7 +154,7 @@ void xoaPhanTuCoGiaTriBangKhong(int *& mang, int & kichThuoc)
 }
 
 // d. Thêm phần tử x vào sau phần tử đầu tiên
-void themPhanTuVaoSauPhanTuDauTien(int *& mang, int & kichThuoc, int x)
+void themPhanTuVaoSauPhanTuDauTien(int *&mang, int &kichThuoc, int x)
 {
 	kichThuoc++;
 	mang = (int *)realloc(mang, kichThuoc * sizeof(int)); // Cấp phát lại bộ nhớ để chứa phần tử mới
@@ -156,7 +178,7 @@ int laSoChinhPhuong(int x)
 	return (canBacHai * canBacHai == x);
 }
 
-int tinhTongSoChinhPhuong(int * mang, int kichThuoc)
+int tinhTongSoChinhPhuong(int *mang, int kichThuoc)
 {
 	int tong = 0;
 	for (int i = 0; i < kichThuoc; i++)
@@ -170,7 +192,7 @@ int tinhTongSoChinhPhuong(int * mang, int kichThuoc)
 }
 
 // f. Xuất các số cực đại trong mảng
-void xuatSoCucDai(int * mang, int kichThuoc)
+void xuatSoCucDai(int *mang, int kichThuoc)
 {
 	if (kichThuoc <= 0)
 	{
@@ -192,7 +214,7 @@ void xuatSoCucDai(int * mang, int kichThuoc)
 
 int main()
 {
-	int * mang;
+	int *mang;
 	int kichThuoc;
 
 	nhapMang(mang, kichThuoc);
@@ -210,3 +232,4 @@ int main()
 	system("pause");
 	return 0;
 }
+

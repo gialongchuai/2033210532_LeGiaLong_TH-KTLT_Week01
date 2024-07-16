@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Định nghĩa cấu trúc PhanSo
 typedef struct {
@@ -22,11 +23,19 @@ typedef struct {
 void nhapPhanSo(PhanSo *ps) {
 	do {
 		printf("Nhap tu so: ");
-		scanf("%d", &ps->tu);
+		while (scanf("%d", &ps->tu) != 1) {
+			while (getchar() != '\n'); // Xóa bỏ các ký tự không hợp lệ
+			printf("Gia tri nhap vao khong hop le. Vui long nhap lai tu so: ");
+		}
 		printf("Nhap mau so: ");
-		scanf("%d", &ps->mau);
-		if (ps->mau == 0) {
-			printf("Mau so phai khac 0. Vui long nhap lai.\n");
+		while (scanf("%d", &ps->mau) != 1 || ps->mau == 0) {
+			while (getchar() != '\n'); // Xóa bỏ các ký tự không hợp lệ
+			if (ps->mau == 0) {
+				printf("Mau so phai khac 0. Vui long nhap lai mau so: ");
+			}
+			else {
+				printf("Gia tri nhap vao khong hop le. Vui long nhap lai mau so: ");
+			}
 		}
 	} while (ps->mau == 0);
 }
@@ -119,7 +128,10 @@ int main() {
 
 	// Nhập số lượng phần tử của mảng
 	printf("Nhap so luong phan tu cua mang: ");
-	scanf("%d", &n);
+	while (scanf("%d", &n) != 1 || n <= 0) {
+		while (getchar() != '\n'); // Xóa bỏ các ký tự không hợp lệ
+		printf("So luong phan tu phai la so nguyen duong. Vui long nhap lai: ");
+	}
 
 	// Cấp phát bộ nhớ cho mảng phân số
 	PhanSo *mang = (PhanSo *)malloc(n * sizeof(PhanSo));
